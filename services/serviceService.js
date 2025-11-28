@@ -1,7 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-// Business logic for Service entity
 
 const getAllServices = async () => {
   return await prisma.service.findMany();
