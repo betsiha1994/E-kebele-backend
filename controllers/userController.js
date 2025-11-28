@@ -1,11 +1,23 @@
 const userService = require("../services/userService");
+const { registrationSchema } = require("../utils/validation");
 
 async function createUser(req, res) {
   try {
-    const user = await userService.createUser(req.body);
+    // Validate request body
+    const { error, value } = registrationSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
+    }
+
+    // Create user
+    const user = await userService.createUser(value);
     res.status(201).json(user);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    // Handle Prisma unique constraint (duplicate email)
+    if (err.code === "P2002" && err.meta?.target.includes("email")) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+    console.error(err);
     res.status(500).json({ error: "Failed to create user" });
   }
 }

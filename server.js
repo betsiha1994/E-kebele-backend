@@ -10,12 +10,14 @@ app.use(express.json());
 // Import routes
 const serviceRoutes = require("./routes/serviceRoutes");
 const userRoutes = require("./routes/userRoutes");
+const authRoutes = require("./routes/authRoutes");
 // You can add serviceRequestRoutes later
 // const serviceRequestRoutes = require("./routes/serviceRequestRoutes");
 
 // Mount routes
 app.use("/services", serviceRoutes);
-app.use("/users", userRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
 // app.use("/users", userRoutes);
 // app.use("/requests", serviceRequestRoutes);
 

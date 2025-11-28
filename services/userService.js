@@ -2,6 +2,14 @@ const prisma = require("../prisma");
 const bcrypt = require("bcrypt");
 
 async function createUser({ name, email, password, role = "resident" }) {
+  const existingUser = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (existingUser) {
+    throw new Error("Email already registered");
+  }
+
   const hashedPassword = await bcrypt.hash(password, 10);
   return await prisma.user.create({
     data: { name, email, password: hashedPassword, role },
@@ -29,6 +37,9 @@ async function updateUser(id, updateData) {
 async function deleteUser(id) {
   return await prisma.user.delete({ where: { id: parseInt(id) } });
 }
+async function getUserByEmail(email) {
+  return await prisma.user.findUnique({ where: { email } });
+}
 
 module.exports = {
   createUser,
@@ -36,4 +47,5 @@ module.exports = {
   getUserById,
   updateUser,
   deleteUser,
+  getUserByEmail,
 };
