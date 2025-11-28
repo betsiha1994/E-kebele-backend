@@ -16,6 +16,7 @@ const userRoutes = require("./routes/userRoutes");
 // Mount routes
 app.use("/services", serviceRoutes);
 app.use("/users", userRoutes);
+// app.use("/users", userRoutes);
 // app.use("/requests", serviceRequestRoutes);
 
 const PORT = process.env.PORT || 3000;
