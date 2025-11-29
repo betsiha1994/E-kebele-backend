@@ -4,7 +4,16 @@ const { registrationSchema } = require("../utils/validation");
 async function createUser(req, res) {
   try {
     // Validate request body
-    const { error, value } = registrationSchema.validate(req.body);
+    const { firstName, lastName, email, password, role, phone } = req.body;
+    const fullName = `${firstName} ${lastName}`;
+    const { error, value } = registrationSchema.validate({
+      name: fullName,
+      email,
+      password,
+      role,
+      phone,
+    });
+
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
     }

@@ -1,16 +1,18 @@
 const express = require("express");
 const dotenv = require("dotenv");
-
+const corsMiddleware = require("./config/corsOptions");
 // Load environment variables
 dotenv.config();
 
 const app = express();
+app.use(corsMiddleware);
 app.use(express.json());
 
 // Import routes
 const serviceRoutes = require("./routes/serviceRoutes");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
+
 // You can add serviceRequestRoutes later
 // const serviceRequestRoutes = require("./routes/serviceRequestRoutes");
 
@@ -18,6 +20,7 @@ const authRoutes = require("./routes/authRoutes");
 app.use("/services", serviceRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+
 // app.use("/users", userRoutes);
 // app.use("/requests", serviceRequestRoutes);
 

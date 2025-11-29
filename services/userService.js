@@ -1,7 +1,7 @@
 const prisma = require("../prisma");
 const bcrypt = require("bcrypt");
 
-async function createUser({ name, email, password, role = "resident" }) {
+async function createUser({ name, email, password, phone, role = "resident" }) {
   const existingUser = await prisma.user.findUnique({
     where: { email },
   });
@@ -12,7 +12,7 @@ async function createUser({ name, email, password, role = "resident" }) {
 
   const hashedPassword = await bcrypt.hash(password, 10);
   return await prisma.user.create({
-    data: { name, email, password: hashedPassword, role },
+    data: { name, email, phone, password: hashedPassword, role },
   });
 }
 
