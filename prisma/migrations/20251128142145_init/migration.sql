@@ -23,6 +23,10 @@ CREATE TABLE "User" (
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
+-- Add the phone column to match schema.prisma
+ALTER TABLE "User"
+ADD COLUMN IF NOT EXISTS "phone" TEXT;
+
 -- CreateTable
 CREATE TABLE "ServiceRequest" (
     "id" SERIAL NOT NULL,

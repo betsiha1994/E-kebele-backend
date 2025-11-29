@@ -3,11 +3,12 @@ const { registrationSchema } = require("../utils/validation");
 
 async function createUser(req, res) {
   try {
-  
-    const { firstName, lastName, email, password, role, phone } = req.body;
-    const fullName = `${firstName} ${lastName}`;
+    const { name, email, password, role, phone } = req.body;
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
     const { error, value } = registrationSchema.validate({
-      name: fullName,
+      name,
       email,
       password,
       role,
