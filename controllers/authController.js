@@ -26,7 +26,7 @@ async function login(req, res) {
       { expiresIn: "1h" }
     );
 
-    // 4. Return token
+ 
     res.json({ token });
   } catch (error) {
     console.error(error);
