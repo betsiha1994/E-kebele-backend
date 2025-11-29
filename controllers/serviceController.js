@@ -1,6 +1,4 @@
-const serviceService = require("../services/serviceService");
-
-// Controller calls service functions and handles HTTP response
+const serviceService = require("../services/serviceService")
 
 const getAllServices = async (req, res) => {
   try {
