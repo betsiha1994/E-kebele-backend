@@ -7,12 +7,11 @@ async function login(req, res) {
   try {
     const { email, password } = req.body;
 
-    // 1. Fetch the user from DB
     const user = await userService.getUserByEmail(email);
     if (!user) {
       return res.status(400).json({ error: "Invalid credentials" });
     }
-    
+
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(400).json({ error: "Invalid credentials" });
@@ -24,7 +23,6 @@ async function login(req, res) {
       { expiresIn: "1h" }
     );
 
- 
     res.json({ token });
   } catch (error) {
     console.error(error);
