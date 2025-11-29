@@ -1,4 +1,4 @@
-// prisma/prisma.config.js
+
 const config = {
   datasources: {
     db: {
