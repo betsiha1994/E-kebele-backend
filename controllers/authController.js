@@ -18,8 +18,7 @@ async function login(req, res) {
     if (!isPasswordValid) {
       return res.status(400).json({ error: "Invalid credentials" });
     }
-
-    // 3. Sign JWT
+    
     const token = jwt.sign(
       { id: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET,
