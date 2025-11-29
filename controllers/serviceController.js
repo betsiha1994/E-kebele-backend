@@ -1,5 +1,6 @@
-const serviceService = require("../services/serviceService")
+const serviceService = require("../services/serviceService");
 
+// GET all services
 const getAllServices = async (req, res) => {
   try {
     const services = await serviceService.getAllServices();
@@ -9,6 +10,7 @@ const getAllServices = async (req, res) => {
   }
 };
 
+// GET service by ID
 const getServiceById = async (req, res) => {
   try {
     const service = await serviceService.getServiceById(req.params.id);
@@ -19,24 +21,43 @@ const getServiceById = async (req, res) => {
   }
 };
 
+// CREATE service (handle file upload)
 const createService = async (req, res) => {
   try {
-    const service = await serviceService.createService(req.body);
+    const { name, description } = req.body;
+    const image = req.file ? `/uploads/${req.file.filename}` : null;
+
+    const service = await serviceService.createService({
+      name,
+      description,
+      image,
+    });
+
     res.status(201).json(service);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
+// UPDATE service (handle optional new image)
 const updateService = async (req, res) => {
   try {
-    const service = await serviceService.updateService(req.params.id, req.body);
+    const updateData = { ...req.body };
+    if (req.file) {
+      updateData.image = `/uploads/${req.file.filename}`;
+    }
+
+    const service = await serviceService.updateService(
+      req.params.id,
+      updateData
+    );
     res.json(service);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
+// DELETE service
 const deleteService = async (req, res) => {
   try {
     await serviceService.deleteService(req.params.id);

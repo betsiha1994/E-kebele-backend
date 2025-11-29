@@ -17,7 +17,7 @@ const authRoutes = require("./routes/authRoutes");
 // const serviceRequestRoutes = require("./routes/serviceRequestRoutes");
 
 // Mount routes
-app.use("/services", serviceRoutes);
+app.use("/api/services", serviceRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 
