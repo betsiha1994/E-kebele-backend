@@ -56,7 +56,6 @@ const updateService = async (req, res) => {
   }
 };
 
-// DELETE service
 const deleteService = async (req, res) => {
   try {
     await serviceService.deleteService(req.params.id);
