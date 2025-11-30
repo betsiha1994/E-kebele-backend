@@ -3,8 +3,10 @@ const dotenv = require("dotenv");
 const corsMiddleware = require("./config/corsOptions");
 // Load environment variables
 dotenv.config();
-
+const path = require("path");
 const app = express();
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(corsMiddleware);
 app.use(express.json());
 
