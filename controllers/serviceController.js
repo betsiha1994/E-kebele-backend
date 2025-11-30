@@ -39,7 +39,6 @@ const createService = async (req, res) => {
   }
 };
 
-// UPDATE service (handle optional new image)
 const updateService = async (req, res) => {
   try {
     const updateData = { ...req.body };
