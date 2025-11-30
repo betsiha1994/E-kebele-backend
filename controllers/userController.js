@@ -19,7 +19,6 @@ async function createUser(req, res) {
       return res.status(400).json({ message: error.details[0].message });
     }
 
-    // Create user
     const user = await userService.createUser(value);
     res.status(201).json(user);
   } catch (err) {
