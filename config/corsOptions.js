@@ -1,4 +1,3 @@
-// corsOptions.js
 const cors = require("cors");
 
 const allowedOrigins = [
