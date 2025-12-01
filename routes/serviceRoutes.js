@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// Routes
+
 router.get("/", controller.getAllServices);
 router.get("/:id", controller.getServiceById);
 
