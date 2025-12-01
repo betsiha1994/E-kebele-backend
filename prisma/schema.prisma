@@ -8,36 +8,37 @@ datasource db {
 }
 
 model Service {
-  id          Int      @id @default(autoincrement())
+  id          Int              @id @default(autoincrement())
   name        String
   description String
-  image       String? 
-  status      String   @default("pending")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  status      String           @default("pending")
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  image       String?
+  formFields  Json?
+  slug        String?
   requests    ServiceRequest[]
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        Int              @id @default(autoincrement())
   name      String
-  email     String   @unique
+  email     String           @unique
   password  String
-  phone     String? 
-  role      String   @default("resident")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  role      String           @default("resident")
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  phone     String?
   requests  ServiceRequest[]
 }
 
 model ServiceRequest {
-  id          Int      @id @default(autoincrement())
-  serviceId   Int
-  userId      Int
-  status      String   @default("pending")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  service Service @relation(fields: [serviceId], references: [id])
-  user    User    @relation(fields: [userId], references: [id])
+  id        Int      @id @default(autoincrement())
+  serviceId Int
+  userId    Int
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  service   Service  @relation(fields: [serviceId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }
