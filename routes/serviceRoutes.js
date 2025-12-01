@@ -3,7 +3,6 @@ const controller = require("../controllers/serviceController");
 const multer = require("multer");
 const router = express.Router();
 
-// Configure multer storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, "uploads/"), // uploads folder in project root
   filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname),
