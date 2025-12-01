@@ -14,7 +14,7 @@ const upload = multer({ storage });
 router.get("/", controller.getAllServices);
 router.get("/:id", controller.getServiceById);
 
-// POST service with image upload
+
 router.post("/", upload.single("image"), controller.createService);
 
 // PUT service with optional image update
