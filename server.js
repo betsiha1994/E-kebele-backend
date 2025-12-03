@@ -1,7 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const corsMiddleware = require("./config/corsOptions");
-// Load environment variables
+
 dotenv.config();
 
 const path = require("path");
@@ -11,7 +11,6 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(corsMiddleware);
 app.use(express.json());
 
-// Import routes
 
 const sequelize = require("./db");
 const userRoutes = require("./routes/userRoutes");
