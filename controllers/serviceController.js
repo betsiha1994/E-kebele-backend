@@ -1,6 +1,6 @@
 const serviceService = require("../services/serviceService");
 
-// GET all services
+
 const getAllServices = async (req, res) => {
   try {
     const services = await serviceService.getAllServices();
