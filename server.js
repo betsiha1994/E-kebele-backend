@@ -17,7 +17,7 @@ const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
 
-// You can add serviceRequestRoutes later
+
 // const serviceRequestRoutes = require("./routes/serviceRequestRoutes");
 
 // Mount routes
