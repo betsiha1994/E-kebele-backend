@@ -10,7 +10,6 @@ const getAllServices = async (req, res) => {
   }
 };
 
-// GET service by ID
 const getServiceById = async (req, res) => {
   try {
     const service = await serviceService.getServiceById(req.params.id);
