@@ -4,9 +4,13 @@ const { registrationSchema } = require("../utils/validation");
 async function createUser(req, res) {
   try {
     const { name, email, password, role, phone } = req.body;
+
+    // Check required fields
     if (!name || !email || !password) {
       return res.status(400).json({ message: "Missing required fields" });
     }
+
+    // Validate input using Joi or your validation schema
     const { error, value } = registrationSchema.validate({
       name,
       email,
@@ -19,13 +23,18 @@ async function createUser(req, res) {
       return res.status(400).json({ message: error.details[0].message });
     }
 
+    // Create user via Sequelize service
     const user = await userService.createUser(value);
     res.status(201).json(user);
   } catch (err) {
-   
-    if (err.code === "P2002" && err.meta?.target.includes("email")) {
+    // Sequelize unique constraint error handling
+    if (
+      err.name === "SequelizeUniqueConstraintError" &&
+      err.errors[0].path === "email"
+    ) {
       return res.status(400).json({ message: "Email already exists" });
     }
+
     console.error(err);
     res.status(500).json({ error: "Failed to create user" });
   }

@@ -1,29 +1,39 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const Service = require("../models/Service");
 
+// Create a new service
 const createService = async (data) => {
-  return await prisma.service.create({ data });
+  return await Service.create(data);
 };
+
+// Get all services
 const getAllServices = async () => {
-  return await prisma.service.findMany();
+  return await Service.findAll();
 };
 
+// Get a service by ID
 const getServiceById = async (id) => {
-  return await prisma.service.findUnique({ where: { id: parseInt(id) } });
+  return await Service.findByPk(id);
 };
 
+// Update a service
 const updateService = async (id, data) => {
-  return await prisma.service.update({ where: { id: parseInt(id) }, data });
+  const service = await Service.findByPk(id);
+  if (!service) throw new Error("Service not found");
+  return await service.update(data);
 };
 
+// Delete a service
 const deleteService = async (id) => {
-  return await prisma.service.delete({ where: { id: parseInt(id) } });
+  const service = await Service.findByPk(id);
+  if (!service) throw new Error("Service not found");
+  await service.destroy();
+  return { message: "Service deleted successfully" };
 };
 
 module.exports = {
+  createService,
   getAllServices,
   getServiceById,
-  createService,
   updateService,
   deleteService,
 };
