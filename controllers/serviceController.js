@@ -1,6 +1,5 @@
 const serviceService = require("../services/serviceService");
 
-
 const getAllServices = async (req, res) => {
   try {
     const services = await serviceService.getAllServices();
@@ -20,7 +19,6 @@ const getServiceById = async (req, res) => {
   }
 };
 
-// CREATE service (handle file upload)
 const createService = async (req, res) => {
   try {
     const { name, description } = req.body;
