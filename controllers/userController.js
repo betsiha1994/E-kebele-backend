@@ -22,7 +22,7 @@ async function createUser(req, res) {
     const user = await userService.createUser(value);
     res.status(201).json(user);
   } catch (err) {
-    // Handle Prisma unique constraint (duplicate email)
+   
     if (err.code === "P2002" && err.meta?.target.includes("email")) {
       return res.status(400).json({ message: "Email already exists" });
     }
