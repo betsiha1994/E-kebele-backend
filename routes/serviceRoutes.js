@@ -18,5 +18,6 @@ router.post("/", upload.single("image"), controller.createService);
 router.put("/:id", upload.single("image"), controller.updateService);
 
 router.delete("/:id", controller.deleteService);
+router.get("/slug/:slug", controller.getServiceBySlug);
 
 module.exports = router;

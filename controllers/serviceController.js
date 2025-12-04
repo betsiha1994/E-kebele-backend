@@ -21,17 +21,24 @@ const getServiceById = async (req, res) => {
 
 const createService = async (req, res) => {
   try {
-    const { name, description } = req.body;
+    const { name, description, slug, formFields } = req.body;
+
+    // Parse formFields if sent as string (from FormData)
+    const parsedFields = formFields ? JSON.parse(formFields) : [];
+
     const image = req.file ? `/uploads/${req.file.filename}` : null;
 
     const service = await serviceService.createService({
       name,
       description,
+      slug,
+      formFields: parsedFields,
       image,
     });
 
     res.status(201).json(service);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -39,6 +46,10 @@ const createService = async (req, res) => {
 const updateService = async (req, res) => {
   try {
     const updateData = { ...req.body };
+    if (updateData.formFields && typeof updateData.formFields === "string") {
+      updateData.formFields = JSON.parse(updateData.formFields);
+    }
+
     if (req.file) {
       updateData.image = `/uploads/${req.file.filename}`;
     }
@@ -61,6 +72,15 @@ const deleteService = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+const getServiceBySlug = async (req, res) => {
+  try {
+    const service = await serviceService.getServiceBySlug(req.params.slug);
+    if (!service) return res.status(404).json({ error: "Service not found" });
+    res.json(service);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 module.exports = {
   getAllServices,
@@ -68,4 +88,5 @@ module.exports = {
   createService,
   updateService,
   deleteService,
+  getServiceBySlug,
 };

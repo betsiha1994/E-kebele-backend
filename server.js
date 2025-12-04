@@ -15,11 +15,11 @@ const sequelize = require("./db");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
+const requestRoutes = require("./routes/requestRoutes");
 
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/services", serviceRoutes);
-
 
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
