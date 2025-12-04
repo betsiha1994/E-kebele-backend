@@ -16,7 +16,6 @@ const createServiceRequest = async (req, res) => {
   }
 };
 
-// Get all service requests
 const getAllServiceRequests = async (req, res) => {
   try {
     const requests = await serviceRequestService.getAllServiceRequests();
@@ -26,7 +25,6 @@ const getAllServiceRequests = async (req, res) => {
   }
 };
 
-// Get a single service request by ID
 const getServiceRequestById = async (req, res) => {
   try {
     const request = await serviceRequestService.getServiceRequestById(
