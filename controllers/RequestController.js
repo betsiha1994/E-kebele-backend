@@ -1,6 +1,6 @@
 const serviceRequestService = require("../services/RequestService");
 
-// Create a new service request
+
 const createServiceRequest = async (req, res) => {
   try {
     const { userId, serviceId, formData } = req.body;
