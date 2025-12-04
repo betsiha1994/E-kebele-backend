@@ -1,6 +1,5 @@
 const serviceRequestService = require("../services/RequestService");
 
-
 const createServiceRequest = async (req, res) => {
   try {
     const { userId, serviceId, formData } = req.body;
@@ -37,7 +36,6 @@ const getServiceRequestById = async (req, res) => {
   }
 };
 
-
 const updateServiceRequest = async (req, res) => {
   try {
     const updatedRequest = await serviceRequestService.updateServiceRequest(
@@ -50,7 +48,6 @@ const updateServiceRequest = async (req, res) => {
   }
 };
 
-// Delete a service request
 const deleteServiceRequest = async (req, res) => {
   try {
     await serviceRequestService.deleteServiceRequest(req.params.id);
