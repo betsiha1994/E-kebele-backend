@@ -18,8 +18,6 @@ const serviceRoutes = require("./routes/serviceRoutes");
 
 
 
-// Mount routes
-// app.use("/api/services", serviceRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/services", serviceRoutes);
