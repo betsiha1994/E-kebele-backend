@@ -11,14 +11,12 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(corsMiddleware);
 app.use(express.json());
 
-
 const sequelize = require("./db");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
 
 
-// const serviceRequestRoutes = require("./routes/serviceRequestRoutes");
 
 // Mount routes
 // app.use("/api/services", serviceRoutes);
@@ -33,8 +31,6 @@ app.use("/api/services", serviceRoutes);
 // app.use("/api/services", serviceRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
-
-
 
 const PORT = process.env.PORT || 3000;
 
