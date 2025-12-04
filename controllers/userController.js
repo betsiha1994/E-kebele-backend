@@ -22,11 +22,10 @@ async function createUser(req, res) {
       return res.status(400).json({ message: error.details[0].message });
     }
 
-    // Create user via Sequelize service
     const user = await userService.createUser(value);
     res.status(201).json(user);
   } catch (err) {
-    // Sequelize unique constraint error handling
+    
     if (
       err.name === "SequelizeUniqueConstraintError" &&
       err.errors[0].path === "email"
