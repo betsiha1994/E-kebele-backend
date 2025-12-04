@@ -5,12 +5,11 @@ async function createUser(req, res) {
   try {
     const { name, email, password, role, phone } = req.body;
 
-    
+
     if (!name || !email || !password) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
-    // Validate input using Joi or your validation schema
     const { error, value } = registrationSchema.validate({
       name,
       email,
