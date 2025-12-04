@@ -37,7 +37,7 @@ const getServiceRequestById = async (req, res) => {
   }
 };
 
-// Update a service request (e.g., status)
+
 const updateServiceRequest = async (req, res) => {
   try {
     const updatedRequest = await serviceRequestService.updateServiceRequest(
