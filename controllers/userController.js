@@ -5,7 +5,6 @@ async function createUser(req, res) {
   try {
     const { name, email, password, role, phone } = req.body;
 
-
     if (!name || !email || !password) {
       return res.status(400).json({ message: "Missing required fields" });
     }
@@ -25,7 +24,6 @@ async function createUser(req, res) {
     const user = await userService.createUser(value);
     res.status(201).json(user);
   } catch (err) {
-    
     if (
       err.name === "SequelizeUniqueConstraintError" &&
       err.errors[0].path === "email"

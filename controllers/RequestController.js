@@ -2,7 +2,8 @@ const serviceRequestService = require("../services/RequestService");
 
 const createServiceRequest = async (req, res) => {
   try {
-    const { userId, serviceId, formData } = req.body;
+    const { serviceId, formData } = req.body;
+    const userId = req.user.id;
     const request = await serviceRequestService.createServiceRequest({
       userId,
       serviceId,
@@ -17,13 +18,24 @@ const createServiceRequest = async (req, res) => {
 
 const getAllServiceRequests = async (req, res) => {
   try {
-    const requests = await serviceRequestService.getAllServiceRequests();
+    const requests = await serviceRequestService.getAllServiceRequests(userId);
     res.json(requests);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
+const getMyRequests = async (req, res) => {
+  try {
+    const userId = req.user.id; // comes from JWT middleware
+    const requests = await serviceRequestService.getRequestsByUser(userId);
+
+    res.status(200).json(requests);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+};
 const getServiceRequestById = async (req, res) => {
   try {
     const request = await serviceRequestService.getServiceRequestById(
@@ -60,6 +72,7 @@ const deleteServiceRequest = async (req, res) => {
 module.exports = {
   createServiceRequest,
   getAllServiceRequests,
+  getMyRequests,
   getServiceRequestById,
   updateServiceRequest,
   deleteServiceRequest,

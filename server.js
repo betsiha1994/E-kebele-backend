@@ -20,9 +20,10 @@ const requestRoutes = require("./routes/requestRoutes");
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/services", serviceRoutes);
+app.use("/api/requests", requestRoutes);
 
-app.use("/api/users", userRoutes);
-app.use("/api/auth", authRoutes);
+// app.use("/api/users", userRoutes);
+// app.use("/api/auth", authRoutes);
 
 const PORT = process.env.PORT || 3000;
 

@@ -12,17 +12,32 @@ const createServiceRequest = async ({ userId, serviceId, formData }) => {
   return serviceRequest;
 };
 
-const getAllServiceRequests = async () => {
+const getAllServiceRequests = async (req, res) => {
+  try {
+    // admin sees all requests
+
+    const requests = await ServiceRequest.findAll({
+      include: [
+        { model: User, attributes: ["id", "name", "email"] },
+        { model: Service, attributes: ["id", "name", "slug"] },
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+
+    res.json(requests);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+const getRequestsByUser = async (userId) => {
   const requests = await ServiceRequest.findAll({
-    include: [
-      { model: User, attributes: ["id", "name", "email"] },
-      { model: Service, attributes: ["id", "name", "slug"] },
-    ],
+    where: { userId },
+    include: [{ model: Service, attributes: ["id", "name", "slug"] }],
     order: [["createdAt", "DESC"]],
   });
   return requests;
 };
-
 const getServiceRequestById = async (id) => {
   const request = await ServiceRequest.findByPk(id, {
     include: [
@@ -52,6 +67,7 @@ const deleteServiceRequest = async (id) => {
 module.exports = {
   createServiceRequest,
   getAllServiceRequests,
+  getRequestsByUser,
   getServiceRequestById,
   updateServiceRequest,
   deleteServiceRequest,
