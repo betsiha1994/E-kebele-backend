@@ -38,6 +38,6 @@ const ServiceRequest = sequelize.define(
 ServiceRequest.belongsTo(User, { foreignKey: "userId" });
 ServiceRequest.belongsTo(Service, { foreignKey: "serviceId" });
 Service.hasMany(ServiceRequest, { foreignKey: "serviceId" });
-User.hasMany(ServiceRequest, { foreignKey: "userId" });
+User.hasMany(ServiceRequest, { foreignKey: "use rId" });
 
 module.exports = ServiceRequest;

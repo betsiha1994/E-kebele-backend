@@ -1,6 +1,7 @@
-const ServiceRequest = require("../models/ServiceRequest");
-const Service = require("../models/Service");
-const User = require("../models/User");
+// const ServiceRequest = require("../models/ServiceRequest");
+// const Service = require("../models/Service");
+// const User = require("../models/User");
+const { ServiceRequest, Service, User } = require("../models");
 
 const createServiceRequest = async ({ userId, serviceId, formData }) => {
   const serviceRequest = await ServiceRequest.create({
@@ -12,22 +13,14 @@ const createServiceRequest = async ({ userId, serviceId, formData }) => {
   return serviceRequest;
 };
 
-const getAllServiceRequests = async (req, res) => {
-  try {
-    // admin sees all requests
-
-    const requests = await ServiceRequest.findAll({
-      include: [
-        { model: User, attributes: ["id", "name", "email"] },
-        { model: Service, attributes: ["id", "name", "slug"] },
-      ],
-      order: [["createdAt", "DESC"]],
-    });
-
-    res.json(requests);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+const getAllServiceRequests = async () => {
+  return await ServiceRequest.findAll({
+    include: [
+      { model: User, attributes: ["id", "name", "email"] },
+      { model: Service, attributes: ["id", "name", "slug"] },
+    ],
+    order: [["createdAt", "DESC"]],
+  });
 };
 
 const getRequestsByUser = async (userId) => {

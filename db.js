@@ -1,6 +1,5 @@
 const { Sequelize } = require("sequelize");
-require('dotenv').config();
-
+require("dotenv").config();
 
 // Use your Neon DATABASE_URL from .env
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
