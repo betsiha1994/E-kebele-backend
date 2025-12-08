@@ -18,7 +18,7 @@ const createServiceRequest = async (req, res) => {
 
 const getAllServiceRequests = async (req, res) => {
   try {
-    // Admin fetches all requests, no userId needed
+    
     const requests = await serviceRequestService.getAllServiceRequests();
     res.json(requests);
   } catch (err) {

@@ -6,11 +6,25 @@ const Service = require("./Service");
 const ServiceRequest = require("./ServiceRequest");
 
 // Set up associations
-User.hasMany(ServiceRequest, { foreignKey: "userId" });
-ServiceRequest.belongsTo(User, { foreignKey: "userId" });
+User.hasMany(ServiceRequest, {
+  foreignKey: "userId",
+  as: "requests",
+});
 
-Service.hasMany(ServiceRequest, { foreignKey: "serviceId" });
-ServiceRequest.belongsTo(Service, { foreignKey: "serviceId" });
+ServiceRequest.belongsTo(User, {
+  foreignKey: "userId",
+  as: "user",
+});
+
+Service.hasMany(ServiceRequest, {
+  foreignKey: "serviceId",
+  as: "requests",
+});
+
+ServiceRequest.belongsTo(Service, {
+  foreignKey: "serviceId",
+  as: "service",
+});
 
 // Export sequelize and models
 module.exports = {

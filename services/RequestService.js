@@ -16,8 +16,8 @@ const createServiceRequest = async ({ userId, serviceId, formData }) => {
 const getAllServiceRequests = async () => {
   return await ServiceRequest.findAll({
     include: [
-      { model: User, attributes: ["id", "name", "email"] },
-      { model: Service, attributes: ["id", "name", "slug"] },
+      { model: User, as: "user", attributes: ["id", "name", "email"] },
+      { model: Service, as: "service", attributes: ["id", "name", "slug"] },
     ],
     order: [["createdAt", "DESC"]],
   });

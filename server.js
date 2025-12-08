@@ -16,11 +16,13 @@ const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
 const requestRoutes = require("./routes/requestRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
 
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/requests", requestRoutes);
+app.use("/api", dashboardRoutes);
 
 // app.use("/api/users", userRoutes);
 // app.use("/api/auth", authRoutes);
