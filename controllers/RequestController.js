@@ -18,7 +18,6 @@ const createServiceRequest = async (req, res) => {
 
 const getAllServiceRequests = async (req, res) => {
   try {
-    
     const requests = await serviceRequestService.getAllServiceRequests();
     res.json(requests);
   } catch (err) {
@@ -29,7 +28,7 @@ const getAllServiceRequests = async (req, res) => {
 
 const getMyRequests = async (req, res) => {
   try {
-    const userId = req.user.id; // comes from JWT middleware
+    const userId = req.user.id; 
     const requests = await serviceRequestService.getRequestsByUser(userId);
 
     res.status(200).json(requests);
