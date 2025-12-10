@@ -73,7 +73,7 @@ async function updateUser(req, res) {
 
     // Correct field names from multer upload
     if (req.files?.profilePic) {
-      data.profilePic = req.files.profilePic[0].filename; // match "profilePic"
+      data.profilePic = req.files.profilePic[0].filename; 
     }
 
     if (req.files?.idFile) {
