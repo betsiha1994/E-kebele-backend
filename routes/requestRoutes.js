@@ -14,7 +14,7 @@ router.get(
   serviceRequestController.getMyRequests
 );
 
-// Get a single service request by ID
+
 router.get("/:id", serviceRequestController.getServiceRequestById);
 
 // Update a service request by ID

@@ -17,20 +17,19 @@ const authRoutes = require("./routes/authRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
 const requestRoutes = require("./routes/requestRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
+const reportRoutes = require("./routes/reportRoutes");
 
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/requests", requestRoutes);
 app.use("/api", dashboardRoutes);
-
-// app.use("/api/users", userRoutes);
-// app.use("/api/auth", authRoutes);
+app.use("/api/reports", reportRoutes);
 
 const PORT = process.env.PORT || 3000;
 
 sequelize
-  .sync({ alter: true }) // creates tables if they don't exist
+  .sync({ alter: true })
   .then(() => {
     console.log("Database synced successfully!");
     app.listen(PORT, () => {

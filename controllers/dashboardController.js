@@ -1,4 +1,6 @@
 const { User, Service, ServiceRequest } = require("../models");
+const { Op, fn, col, literal } = require("sequelize"); // Sequelize functions
+const sequelize = require("../db"); // Your Sequelize instance
 
 // Dashboard controller with service logic included
 const getDashboardStats = async (req, res) => {

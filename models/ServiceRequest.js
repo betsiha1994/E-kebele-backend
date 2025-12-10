@@ -15,7 +15,7 @@ const ServiceRequest = sequelize.define(
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM("pending", "approved", "rejected", "closed"),
+      type: DataTypes.ENUM("pending", "approved", "rejected", "completed"),
       defaultValue: "pending",
     },
     // Stores the submitted form data if service has dynamic fields
@@ -38,6 +38,6 @@ const ServiceRequest = sequelize.define(
 ServiceRequest.belongsTo(User, { foreignKey: "userId" });
 ServiceRequest.belongsTo(Service, { foreignKey: "serviceId" });
 Service.hasMany(ServiceRequest, { foreignKey: "serviceId" });
-User.hasMany(ServiceRequest, { foreignKey: "use rId" });
+User.hasMany(ServiceRequest, { foreignKey: "userId" });
 
 module.exports = ServiceRequest;
