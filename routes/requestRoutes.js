@@ -18,7 +18,6 @@ router.get("/:id", serviceRequestController.getServiceRequestById);
 
 router.put("/:id", serviceRequestController.updateServiceRequest);
 
-// Delete a service request by ID
 router.delete("/:id", serviceRequestController.deleteServiceRequest);
 
 module.exports = router;
