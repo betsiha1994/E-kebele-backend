@@ -9,6 +9,16 @@ async function createUser(req, res) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
+    const data = { name, email, password, role, phone };
+    if (req.files?.profilePic) {
+      data.profilePic = req.files.profilePic[0].filename;
+    }
+
+    // If ID/document is uploaded
+    if (req.files?.idFile) {
+      data.idFile = req.files.idFile[0].filename;
+    }
+
     const { error, value } = registrationSchema.validate({
       name,
       email,
@@ -59,7 +69,18 @@ async function getUserById(req, res) {
 
 async function updateUser(req, res) {
   try {
-    const updatedUser = await userService.updateUser(req.params.id, req.body);
+    const data = { ...req.body };
+
+    // Correct field names from multer upload
+    if (req.files?.profilePic) {
+      data.profilePic = req.files.profilePic[0].filename; // match "profilePic"
+    }
+
+    if (req.files?.idFile) {
+      data.idFile = req.files.idFile[0].filename; // match "idFile"
+    }
+
+    const updatedUser = await userService.updateUser(req.params.id, data);
     res.json(updatedUser);
   } catch (error) {
     console.error(error);

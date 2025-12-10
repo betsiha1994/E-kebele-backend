@@ -1,6 +1,5 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db");
-
 const User = sequelize.define(
   "User",
   {
@@ -9,6 +8,8 @@ const User = sequelize.define(
     password: { type: DataTypes.STRING, allowNull: false },
     role: { type: DataTypes.STRING, defaultValue: "resident" },
     phone: { type: DataTypes.STRING },
+    address: { type: DataTypes.STRING }, // new
+    profilePic: { type: DataTypes.STRING }, // new, store file path or URL
   },
   {
     timestamps: true,
