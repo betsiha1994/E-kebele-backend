@@ -14,10 +14,8 @@ router.get(
   serviceRequestController.getMyRequests
 );
 
-
 router.get("/:id", serviceRequestController.getServiceRequestById);
 
-// Update a service request by ID
 router.put("/:id", serviceRequestController.updateServiceRequest);
 
 // Delete a service request by ID
