@@ -19,5 +19,7 @@ router.get("/:id", serviceRequestController.getServiceRequestById);
 router.put("/:id", serviceRequestController.updateServiceRequest);
 
 router.delete("/:id", serviceRequestController.deleteServiceRequest);
+router.put("/:id/approve", serviceRequestController.approveRequest);
+router.put("/:id/reject", serviceRequestController.rejectRequest);
 
 module.exports = router;

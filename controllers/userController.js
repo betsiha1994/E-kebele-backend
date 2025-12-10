@@ -3,35 +3,22 @@ const { registrationSchema } = require("../utils/validation");
 
 async function createUser(req, res) {
   try {
-    const { name, email, password, role, phone } = req.body;
+    const data = { ...req.body };
 
-    if (!name || !email || !password) {
-      return res.status(400).json({ message: "Missing required fields" });
-    }
-
-    const data = { name, email, password, role, phone };
     if (req.files?.profilePic) {
       data.profilePic = req.files.profilePic[0].filename;
     }
 
-    // If ID/document is uploaded
     if (req.files?.idFile) {
       data.idFile = req.files.idFile[0].filename;
     }
 
-    const { error, value } = registrationSchema.validate({
-      name,
-      email,
-      password,
-      role,
-      phone,
-    });
-
+    const { error } = registrationSchema.validate(data);
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
     }
 
-    const user = await userService.createUser(value);
+    const user = await userService.createUser(data);
     res.status(201).json(user);
   } catch (err) {
     if (
@@ -73,7 +60,7 @@ async function updateUser(req, res) {
 
     // Correct field names from multer upload
     if (req.files?.profilePic) {
-      data.profilePic = req.files.profilePic[0].filename; 
+      data.profilePic = req.files.profilePic[0].filename;
     }
 
     if (req.files?.idFile) {

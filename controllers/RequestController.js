@@ -1,4 +1,9 @@
 const serviceRequestService = require("../services/RequestService");
+const {
+  notifyRequestApproved,
+  notifyRequestRejected,
+} = require("../utils/notificationService");
+const { User, ServiceRequest } = require("../models");
 
 const createServiceRequest = async (req, res) => {
   try {
@@ -28,7 +33,7 @@ const getAllServiceRequests = async (req, res) => {
 
 const getMyRequests = async (req, res) => {
   try {
-    const userId = req.user.id; 
+    const userId = req.user.id;
     const requests = await serviceRequestService.getRequestsByUser(userId);
 
     res.status(200).json(requests);
@@ -70,6 +75,34 @@ const deleteServiceRequest = async (req, res) => {
   }
 };
 
+const approveRequest = async (req, res) => {
+  const request = await ServiceRequest.findByPk(req.params.id, {
+    include: User,
+  });
+  if (!request) return res.status(404).json({ error: "Request not found" });
+
+  request.status = "approved";
+  await request.save();
+
+  await notifyRequestApproved(request.user);
+
+  res.json({ message: "Request approved and notification sent" });
+};
+const rejectRequest = async (req, res) => {
+  const { reason } = req.body;
+  const request = await ServiceRequest.findByPk(req.params.id, {
+    include: User,
+  });
+  if (!request) return res.status(404).json({ error: "Request not found" });
+
+  request.status = "rejected";
+  await request.save();
+
+  await notifyRequestRejected(request.user, reason);
+
+  res.json({ message: "Request rejected and notification sent" });
+};
+
 module.exports = {
   createServiceRequest,
   getAllServiceRequests,
@@ -77,4 +110,6 @@ module.exports = {
   getServiceRequestById,
   updateServiceRequest,
   deleteServiceRequest,
+   approveRequest,
+  rejectRequest, 
 };

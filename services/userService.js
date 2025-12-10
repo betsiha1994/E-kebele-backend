@@ -2,23 +2,19 @@ const bcrypt = require("bcrypt");
 const User = require("../models/User");
 
 // Create a new user
-async function createUser({ name, email, password, phone, role = "resident" }) {
-  // Check if user already exists
+async function createUser(data) {
+  const { name, email, password, phone, role = "resident" } = data;
+
   const existingUser = await User.findOne({ where: { email } });
   if (existingUser) {
     throw new Error("Email already registered");
   }
 
-  // Hash password
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  // Create user
   const user = await User.create({
-    name,
-    email,
-    phone,
-    role,
-    password: hashedPassword,
+    ...data,
+    password: hashedPassword, // override plain password
   });
 
   return user;

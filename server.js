@@ -18,6 +18,7 @@ const serviceRoutes = require("./routes/serviceRoutes");
 const requestRoutes = require("./routes/requestRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const reportRoutes = require("./routes/reportRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
 
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
@@ -25,6 +26,7 @@ app.use("/api/services", serviceRoutes);
 app.use("/api/requests", requestRoutes);
 app.use("/api", dashboardRoutes);
 app.use("/api/reports", reportRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 const PORT = process.env.PORT || 3000;
 
