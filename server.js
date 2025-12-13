@@ -19,6 +19,7 @@ const requestRoutes = require("./routes/requestRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const reportRoutes = require("./routes/reportRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
+const documentRoutes = require("./routes/documentRoutes");
 
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
@@ -27,6 +28,7 @@ app.use("/api/requests", requestRoutes);
 app.use("/api", dashboardRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/notifications", notificationRoutes);
+app.use("/api/documents", documentRoutes);
 
 const PORT = process.env.PORT || 3000;
 

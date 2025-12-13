@@ -110,6 +110,6 @@ module.exports = {
   getServiceRequestById,
   updateServiceRequest,
   deleteServiceRequest,
-   approveRequest,
-  rejectRequest, 
+  approveRequest,
+  rejectRequest,
 };
