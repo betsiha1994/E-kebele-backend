@@ -18,6 +18,11 @@ const ServiceRequest = sequelize.define(
       type: DataTypes.ENUM("pending", "approved", "rejected", "completed"),
       defaultValue: "pending",
     },
+    document: {
+      type: DataTypes.STRING,
+      allowNull: true, // can be null if no file is uploaded
+    },
+
     // Stores the submitted form data if service has dynamic fields
     formData: {
       type: DataTypes.JSON,

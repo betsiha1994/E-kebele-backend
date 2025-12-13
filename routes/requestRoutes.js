@@ -2,9 +2,15 @@ const express = require("express");
 const router = express.Router();
 const serviceRequestController = require("../controllers/RequestController");
 const authenticate = require("../middleware/authMiddleware");
+const upload = require("../middleware/upload");
 
 // Create a new service request
-router.post("/", authenticate, serviceRequestController.createServiceRequest);
+router.post(
+  "/",
+  authenticate,
+  upload.any(), // 'document' is the input name from frontend
+  serviceRequestController.createServiceRequest
+);
 
 // Get all service requests
 router.get("/", serviceRequestController.getAllServiceRequests);

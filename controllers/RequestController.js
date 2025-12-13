@@ -4,16 +4,21 @@ const {
   notifyRequestRejected,
 } = require("../utils/notificationService");
 const { User, ServiceRequest } = require("../models");
+const upload = require("../middleware/upload");
 
 const createServiceRequest = async (req, res) => {
   try {
     const { serviceId, formData } = req.body;
     const userId = req.user.id;
-    const request = await serviceRequestService.createServiceRequest({
-      userId,
-      serviceId,
-      formData,
-    });
+
+    const data = { userId, serviceId, formData };
+
+    // Save uploaded filename
+    if (req.file) {
+      data.document = req.file.filename;
+    }
+
+    const request = await serviceRequestService.createServiceRequest(data);
     res.status(201).json(request);
   } catch (err) {
     console.error(err);
