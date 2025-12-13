@@ -37,14 +37,12 @@ try {
     .then(() => {
       console.log("✅ Database connection successful!");
 
-      // 5. Optional: Test a simple query
       console.log("\n4. Testing database query...");
       return prisma.$queryRaw`SELECT 1 as test`;
     })
     .then((result) => {
       console.log("✅ Database query successful:", result);
 
-      // 6. Check your models are accessible
       console.log("\n5. Checking available models:");
       console.log("   Available models in Prisma Client:");
       console.log("   - User");
