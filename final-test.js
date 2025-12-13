@@ -1,11 +1,10 @@
-﻿// final-verification.js
-console.log("=== FINAL PRISMA VERIFICATION ===\n");
+﻿console.log("=== FINAL PRISMA VERIFICATION ===\n");
 
 const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
 
-// 1. Check generated files
+
 console.log("1. Checking generated files:");
 const clientPath = path.join(__dirname, 'node_modules', '.prisma', 'client');
 if (fs.existsSync(clientPath)) {
