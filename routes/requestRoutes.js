@@ -7,7 +7,7 @@ const upload = require("../middleware/upload");
 router.post(
   "/",
   authenticate,
-  upload.any(), // 'document' is the input name from frontend
+  upload.any(), 
   serviceRequestController.createServiceRequest
 );
 
