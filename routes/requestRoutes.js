@@ -4,7 +4,6 @@ const serviceRequestController = require("../controllers/RequestController");
 const authenticate = require("../middleware/authMiddleware");
 const upload = require("../middleware/upload");
 
-// Create a new service request
 router.post(
   "/",
   authenticate,
@@ -12,7 +11,6 @@ router.post(
   serviceRequestController.createServiceRequest
 );
 
-// Get all service requests
 router.get("/", serviceRequestController.getAllServiceRequests);
 router.get(
   "/my-requests",
