@@ -3,12 +3,18 @@
 // const User = require("../models/User");
 const { ServiceRequest, Service, User } = require("../models");
 
-const createServiceRequest = async ({ userId, serviceId, formData }) => {
+const createServiceRequest = async ({
+  userId,
+  serviceId,
+  formData,
+  document,
+}) => {
   const serviceRequest = await ServiceRequest.create({
     userId,
     serviceId,
     formData,
-    status: "pending", // default status
+    document: document || null, // ✅ add this line
+    status: "pending",
   });
   return serviceRequest;
 };

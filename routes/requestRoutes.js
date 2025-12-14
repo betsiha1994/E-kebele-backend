@@ -7,7 +7,7 @@ const upload = require("../middleware/upload");
 router.post(
   "/",
   authenticate,
-  upload.any(), 
+  upload.any(),
   serviceRequestController.createServiceRequest
 );
 

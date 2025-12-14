@@ -8,17 +8,22 @@ const upload = require("../middleware/upload");
 
 const createServiceRequest = async (req, res) => {
   try {
-    const { serviceId, formData } = req.body;
+    const { serviceId } = req.body;
     const userId = req.user.id;
 
-    const data = { userId, serviceId, formData };
+    const data = {
+      userId,
+      serviceId,
+      formData: req.body, // keep all dynamic fields
+    };
 
-    // Save uploaded filename
-    if (req.file) {
-      data.document = req.file.filename;
+    // ✅ FIX: read from req.files
+    if (req.files && req.files.length > 0) {
+      data.document = req.files[0].filename; // first uploaded file
     }
 
     const request = await serviceRequestService.createServiceRequest(data);
+
     res.status(201).json(request);
   } catch (err) {
     console.error(err);
