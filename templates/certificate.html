@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Certificate of Residency</title>
+
+    <style>
+        body {
+            width: 900px;
+            height: 600px;
+            margin: 0 auto;
+            padding: 40px;
+            border: 8px double black;
+            font-family: "Times New Roman", serif;
+            text-align: center;
+        }
+
+        .header {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 34px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .content {
+            margin-top: 40px;
+            font-size: 20px;
+            line-height: 30px;
+        }
+
+        .footer {
+            margin-top: 80px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            padding: 0 40px;
+        }
+
+        .sign-box {
+            text-align: center;
+        }
+
+        .value {
+            font-weight: bold;
+            font-size: 26px;
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        Federal Democratic Republic of Ethiopia <br>
+        Woreda / Kebele Administration Office
+    </div>
+
+    <h1>Certificate of Residency</h1>
+
+    <div class="content">
+        This is to certify that <br>
+        <span class="value">{{name}}</span> <br>
+        is a legal resident of Kebele No. <span class="value">{{kebele}}</span>. <br><br>
+
+        This certificate is issued upon the applicant's request for official purposes.<br><br>
+
+        Date of Issue: <span class="value">{{date}}</span>
+    </div>
+
+    <div class="footer">
+        <div class="sign-box">
+            ____________________________ <br>
+            Kebele Officer
+        </div>
+
+        <div class="sign-box">
+            ____________________________ <br>
+            Stamp / Seal
+        </div>
+    </div>
+
+</body>
+</html>
