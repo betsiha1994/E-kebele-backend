@@ -13,8 +13,8 @@ async function generateCertificate(data) {
     // Replace placeholders
     template = template
         .replace('{{name}}', name)
-        .replace('{{kebele}}', kebele)
-        .replace('{{date}}', date);
+        
+.replace('{{date}}', date);
 
     // Launch browser
     const browser = await puppeteer.launch({

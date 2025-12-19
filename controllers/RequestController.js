@@ -3,10 +3,10 @@ const {
   notifyRequestApproved,
   notifyRequestRejected,
 } = require("../utils/notificationService");
-const { User, ServiceRequest } = require("../models");
+const { User, ServiceRequest, Certificate } = require("../models");
+
 const upload = require("../middleware/upload");
 const generateCertificate = require("../utils/generateCertificate");
-// const { Certificate } = require("../models");
 
 
 const createServiceRequest = async (req, res) => {
@@ -104,8 +104,8 @@ const approveRequest = async (req, res) => {
 
     // Generate certificate PDF
     const cert = await generateCertificate({
-      name: request.user.fullName,  // ensure field exists
-      kebele: request.user.kebele,
+      name: request.user.name,  // ensure field exists
+      kebele: "",
       date: new Date().toLocaleDateString(),
     });
 
