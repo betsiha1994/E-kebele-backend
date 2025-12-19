@@ -5,6 +5,9 @@ const {
 } = require("../utils/notificationService");
 const { User, ServiceRequest } = require("../models");
 const upload = require("../middleware/upload");
+const generateCertificate = require("../utils/generateCertificate");
+// const { Certificate } = require("../models");
+
 
 const createServiceRequest = async (req, res) => {
   try {
@@ -86,18 +89,48 @@ const deleteServiceRequest = async (req, res) => {
 };
 
 const approveRequest = async (req, res) => {
-  const request = await ServiceRequest.findByPk(req.params.id, {
-    include: User,
-  });
-  if (!request) return res.status(404).json({ error: "Request not found" });
+  try {
+    const request = await ServiceRequest.findByPk(req.params.id, {
+      include: User,
+    });
 
-  request.status = "approved";
-  await request.save();
+    if (!request) {
+      return res.status(404).json({ error: "Request not found" });
+    }
 
-  await notifyRequestApproved(request.user);
+    // Update status to approved
+    request.status = "approved";
+    await request.save();
 
-  res.json({ message: "Request approved and notification sent" });
+    // Generate certificate PDF
+    const cert = await generateCertificate({
+      name: request.user.fullName,  // ensure field exists
+      kebele: request.user.kebele,
+      date: new Date().toLocaleDateString(),
+    });
+
+    // Save certificate record in DB
+    const certificateRecord = await Certificate.create({
+      requestId: request.id,
+      filename: cert.filename,
+      filePath: cert.filePath,
+    });
+
+    // Send notification
+    await notifyRequestApproved(request.user);
+
+    return res.json({
+      message: "Request approved and certificate generated",
+      certificate: certificateRecord,
+      downloadUrl: `/certificates/${cert.filename}`,
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
 };
+
 const rejectRequest = async (req, res) => {
   const { reason } = req.body;
   const request = await ServiceRequest.findByPk(req.params.id, {
