@@ -28,7 +28,7 @@ ServiceRequest.belongsTo(Service, {
   as: "service",
 });
 
-// ServiceRequest → Certificate
+
 ServiceRequest.hasOne(Certificate, {
   foreignKey: "requestId",
   as: "certificate",
@@ -40,7 +40,7 @@ Certificate.belongsTo(ServiceRequest, {
   as: "request",
 });
 
-// Export sequelize and models
+
 module.exports = {
   sequelize,
   User,
