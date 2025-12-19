@@ -17,7 +17,6 @@ ServiceRequest.belongsTo(User, {
   as: "user",
 });
 
-// Service → ServiceRequest
 Service.hasMany(ServiceRequest, {
   foreignKey: "serviceId",
   as: "requests",
