@@ -22,7 +22,7 @@ const createServiceRequest = async (req, res) => {
 
     // ✅ FIX: read from req.files
     if (req.files && req.files.length > 0) {
-      data.document = req.files[0].filename; // first uploaded file
+      data.document = req.files[0].filename; 
     }
 
     const request = await serviceRequestService.createServiceRequest(data);
