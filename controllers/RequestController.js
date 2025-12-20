@@ -88,10 +88,12 @@ const deleteServiceRequest = async (req, res) => {
   }
 };
 const approveRequest = async (req, res) => {
+  console.log(`[DEBUG] Starting approval for request ID: ${req.params.id}`);
   try {
     const request = await ServiceRequest.findByPk(req.params.id, {
       include: User,
     });
+      console.log(`[DEBUG] Request found:`, { id: request?.id, status: request?.status });
 
     if (!request) {
       return res.status(404).json({ error: "Request not found" });
@@ -100,14 +102,19 @@ const approveRequest = async (req, res) => {
     // Update status to approved
     request.status = "approved";
     request.approvedAt = new Date(); // Store approval timestamp
+     console.log(`[DEBUG] Before save - status: ${request.status}`);
     await request.save();
+     console.log(`[DEBUG] Request saved successfully`);
 
     // Generate certificate PDF - NO DATE PARAMETER NEEDED
+    console.log(`[DEBUG] Starting certificate generation...`);
     const cert = await generateCertificate({
       name: request.user.name,
       kebele: request.user.kebele || request.kebele || "", // Use actual kebele from user or request
       // date: new Date().toLocaleDateString(), // REMOVE THIS LINE
     });
+    console.log(`[DEBUG] Certificate generated:`, cert);
+
 
     // Save certificate record in DB
     const certificateRecord = await Certificate.create({

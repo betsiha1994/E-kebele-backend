@@ -1,5 +1,7 @@
 const fs = require('fs');
 const path = require('path');
+require("dotenv").config();
+
 const puppeteer = require('puppeteer');
 
 async function generateCertificate(data) {
@@ -30,7 +32,14 @@ async function generateCertificate(data) {
         .replace(/{{certificateId}}/g, `CERT-${Date.now()}`);
 
     // Generate PDF
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({
+  headless: true,
+  executablePath: process.env.CHROME_PATH, 
+  args: [
+    "--no-sandbox",
+    "--disable-setuid-sandbox"
+  ]
+});
     const page = await browser.newPage();
     await page.setContent(template, { waitUntil: 'networkidle0' });
 
