@@ -21,7 +21,7 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 const reportRoutes = require("./routes/reportRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const documentRoutes = require("./routes/documentRoutes");
-const certificateRoutes = require('./routes/certificateRoutes');
+// const certificateRoutes = require('./routes/certificateRoutes');
 
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
@@ -31,7 +31,7 @@ app.use("/api", dashboardRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/documents", documentRoutes);
-app.use('/api/certificates', certificateRoutes);
+// app.use('/api/certificates', certificateRoutes);
 
 const PORT = process.env.PORT || 3000;
 

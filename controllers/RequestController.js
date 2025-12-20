@@ -17,7 +17,7 @@ const createServiceRequest = async (req, res) => {
     const data = {
       userId,
       serviceId,
-      formData: req.body, // keep all dynamic fields
+      formData: req.body, 
     };
 
     // ✅ FIX: read from req.files
@@ -87,7 +87,6 @@ const deleteServiceRequest = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
 const approveRequest = async (req, res) => {
   try {
     const request = await ServiceRequest.findByPk(req.params.id, {
@@ -100,34 +99,60 @@ const approveRequest = async (req, res) => {
 
     // Update status to approved
     request.status = "approved";
+    request.approvedAt = new Date(); // Store approval timestamp
     await request.save();
 
-    // Generate certificate PDF
+    // Generate certificate PDF - NO DATE PARAMETER NEEDED
     const cert = await generateCertificate({
-      name: request.user.name,  // ensure field exists
-      kebele: "",
-      date: new Date().toLocaleDateString(),
+      name: request.user.name,
+      kebele: request.user.kebele || request.kebele || "", // Use actual kebele from user or request
+      // date: new Date().toLocaleDateString(), // REMOVE THIS LINE
     });
 
     // Save certificate record in DB
     const certificateRecord = await Certificate.create({
       requestId: request.id,
+      userId: request.user.id,
       filename: cert.filename,
       filePath: cert.filePath,
+      issuedAt: cert.dateIssued, // This comes from generateCertificate's return
+      certificateId: cert.filename.replace('.pdf', '').split('_').pop(),
+      status: 'issued'
     });
 
-    // Send notification
-    await notifyRequestApproved(request.user);
+    // Update request with certificate reference
+    request.certificateId = certificateRecord.id;
+    await request.save();
+
+    // Send notification (email/SMS)
+    await notifyRequestApproved(request.user, {
+      certificateId: certificateRecord.id,
+      downloadUrl: `/certificates/${cert.filename}`,
+      issuedDate: cert.dateIssued
+    });
 
     return res.json({
       message: "Request approved and certificate generated",
-      certificate: certificateRecord,
-      downloadUrl: `/certificates/${cert.filename}`,
+      certificate: {
+        id: certificateRecord.id,
+        filename: cert.filename,
+        downloadUrl: `/certificates/${cert.filename}`,
+        issuedAt: cert.dateIssued,
+        status: 'issued'
+      },
+      request: {
+        id: request.id,
+        status: request.status,
+        approvedAt: request.approvedAt
+      }
     });
 
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
+    console.error("Approve request error:", err);
+    res.status(500).json({ 
+      error: "Failed to approve request",
+      details: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
   }
 };
 
