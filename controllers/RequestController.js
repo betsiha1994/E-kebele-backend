@@ -3,12 +3,12 @@ const {
   notifyRequestApproved,
   notifyRequestRejected,
 } = require("../utils/notificationService");
-const { User, ServiceRequest, Certificate } = require("../models");
+const { User, ServiceRequest, Certificate, Service } = require("../models");
 
 const upload = require("../middleware/upload");
 const generateCertificate = require("../utils/generateCertificate");
 
-  const createServiceRequest = async (req, res) => {
+const createServiceRequest = async (req, res) => {
   try {
     const { serviceId } = req.body;
     const userId = req.user.id;
@@ -88,66 +88,63 @@ const deleteServiceRequest = async (req, res) => {
 
 const approveRequest = async (req, res) => {
   console.log(`[DEBUG] Starting approval for request ID: ${req.params.id}`);
+
   try {
     const request = await ServiceRequest.findByPk(req.params.id, {
-      include: [
-        {
-          model: User,
-          as: "user",
-        },
-      ],
+      include: [{ model: User }, { model: Service }],
     });
-
-    console.log(`[DEBUG] Request found:`, {
-      id: request?.id,
-      status: request?.status,
-    });
-    console.log("---- DEBUG DB RESPONSE ----");
-    console.log("request.userId =", request.userId);
-    console.log("request.user =", request.user);
 
     if (!request) {
       return res.status(404).json({ error: "Request not found" });
     }
 
-    request.status = "approved";
-    request.approvedAt = new Date(); // Store approval timestamp
-    console.log(`[DEBUG] Before save - status: ${request.status}`);
-    await request.save();
-    console.log(`[DEBUG] Request saved successfully`);
+    // 🔐 Always use Sequelize aliases correctly
+    const user = request.User;
+    const service = request.Service;
 
-    console.log(`[DEBUG] Starting certificate generation...`);
+    if (!user || !service) {
+      return res.status(500).json({
+        error: "User or Service data missing",
+      });
+    }
+
+    // ✅ Approve request
+    request.status = "approved";
+    request.approvedAt = new Date();
+    await request.save();
+
+    console.log(`[DEBUG] Request approved, generating certificate...`);
+
+    // 🧠 Dynamic certificate data
     const cert = await generateCertificate({
-      name: request?.user?.name ?? "Unknown",
-      kebele: request?.user?.address ?? request?.address ?? "",
-      phone: request?.user?.phone ?? "",
+      name: user.fullName || user.name,
+      kebele: user.kebele || user.address || "",
+      certificateTitle: service.name, // 🔥 Dynamic title
+      extraData: request.formData || {}, // 🔥 Dynamic fields
     });
+
     console.log(`[DEBUG] Certificate generated:`, cert);
 
-    // Save certificate record in DB
+    // 💾 Save certificate record
     const certificateRecord = await Certificate.create({
       requestId: request.id,
-      userId: request.user.id,
+      userId: user.id,
       filename: cert.filename,
       filePath: cert.filePath,
-      issuedAt: cert.dateIssued, // This comes from generateCertificate's return
+      issuedAt: cert.dateIssued,
       certificateId: cert.filename.replace(".pdf", "").split("_").pop(),
       status: "issued",
     });
-    if (!request.user) {
-      console.log("[ERROR] request.user is undefined!");
-      return res.status(500).json({
-        error: "User data missing. Cannot generate certificate.",
-      });
-    }
-    // Update request with certificate reference
+
+    // 🔗 Link certificate to request
     request.certificateId = certificateRecord.id;
+    request.status = "completed";
     await request.save();
 
-    // Send notification (email/SMS)
-    await notifyRequestApproved(request.user, {
+    // 📢 Notify user
+    await notifyRequestApproved(user, {
       certificateId: certificateRecord.id,
-      downloadUrl: `/certificates/${cert.filename}`,
+      downloadUrl: cert.downloadUrl,
       issuedDate: cert.dateIssued,
     });
 
@@ -156,8 +153,9 @@ const approveRequest = async (req, res) => {
       certificate: {
         id: certificateRecord.id,
         filename: cert.filename,
-        downloadUrl: `/certificates/${cert.filename}`,
+        downloadUrl: cert.downloadUrl,
         issuedAt: cert.dateIssued,
+        title: service.name,
         status: "issued",
       },
       request: {
@@ -168,7 +166,7 @@ const approveRequest = async (req, res) => {
     });
   } catch (err) {
     console.error("Approve request error:", err);
-    res.status(500).json({
+    return res.status(500).json({
       error: "Failed to approve request",
       details: process.env.NODE_ENV === "development" ? err.message : undefined,
     });
