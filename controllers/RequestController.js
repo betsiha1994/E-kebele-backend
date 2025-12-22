@@ -99,7 +99,6 @@ const approveRequest = async (req, res) => {
       return res.status(404).json({ error: "Request not found" });
     }
 
-    // Update status to approved
     request.status = "approved";
     request.approvedAt = new Date(); // Store approval timestamp
      console.log(`[DEBUG] Before save - status: ${request.status}`);
