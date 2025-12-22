@@ -8,7 +8,7 @@ const { User, ServiceRequest, Certificate } = require("../models");
 const upload = require("../middleware/upload");
 const generateCertificate = require("../utils/generateCertificate");
 
-const createServiceRequest = async (req, res) => {
+  const createServiceRequest = async (req, res) => {
   try {
     const { serviceId } = req.body;
     const userId = req.user.id;
@@ -85,6 +85,7 @@ const deleteServiceRequest = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 const approveRequest = async (req, res) => {
   console.log(`[DEBUG] Starting approval for request ID: ${req.params.id}`);
   try {
@@ -118,7 +119,8 @@ const approveRequest = async (req, res) => {
     console.log(`[DEBUG] Starting certificate generation...`);
     const cert = await generateCertificate({
       name: request?.user?.name ?? "Unknown",
-      kebele: request?.user?.kebele ?? request?.kebele ?? "",
+      kebele: request?.user?.address ?? request?.address ?? "",
+      phone: request?.user?.phone ?? "",
     });
     console.log(`[DEBUG] Certificate generated:`, cert);
 

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Certificate of Residency</title>
+    <title><%= certificateTitle %></title>
 
     <style>
         body {
@@ -62,16 +62,17 @@
         Woreda / Kebele Administration Office
     </div>
 
-    <h1>Certificate of Residency</h1>
+    <h1><%= certificateTitle %></h1>
 
     <div class="content">
         This is to certify that <br>
-        <span class="value">{{name}}</span> <br>
-        is a legal resident of Kebele No. <span class="value">{{kebele}}</span>. <br><br>
+        <span class="value"><%= name %></span> <br>
 
-        This certificate is issued upon the applicant's request for official purposes.<br><br>
+        Phone: <span class="value"><%= phone %></span> <br><br>
 
-        Date of Issue: <span class="value">{{date}}</span>
+        <%= description %> <br><br>
+
+        Date of Issue: <span class="value"><%= date %></span>
     </div>
 
     <div class="footer">
