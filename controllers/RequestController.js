@@ -20,7 +20,7 @@ const createServiceRequest = async (req, res) => {
       formData: req.body, 
     };
 
-    // ✅ FIX: read from req.files
+    
     if (req.files && req.files.length > 0) {
       data.document = req.files[0].filename; 
     }
