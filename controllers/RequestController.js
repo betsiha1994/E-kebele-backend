@@ -105,7 +105,7 @@ const approveRequest = async (req, res) => {
     await request.save();
      console.log(`[DEBUG] Request saved successfully`);
 
-    // Generate certificate PDF - NO DATE PARAMETER NEEDED
+   
     console.log(`[DEBUG] Starting certificate generation...`);
     const cert = await generateCertificate({
       name: request.user.name,
