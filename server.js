@@ -8,10 +8,7 @@ const path = require("path");
 const app = express();
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use(
-  "/certificates",
-  express.static(path.join(__dirname, "src", "certificates"))
-);
+app.use("/certificates", express.static(path.join(__dirname, "certificates")));
 
 app.use(corsMiddleware);
 app.use(express.json());
