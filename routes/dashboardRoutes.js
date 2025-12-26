@@ -4,7 +4,7 @@ const dashboardController = require("../controllers/dashboardController");
 const authMiddleware = require("../middleware/authMiddleware"); // JWT auth
 // const adminOnly = require("../middlewares/adminOnly"); // optional: admin-only
 
-// GET /api/dashboard
+
 router.get(
   "/dashboard",
   //   authMiddleware,
