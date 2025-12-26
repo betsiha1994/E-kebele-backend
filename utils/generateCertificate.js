@@ -19,6 +19,13 @@ async function generateCertificate(data) {
 
   // Path to EJS template
   const templatePath = path.join(__dirname, "../templates/certificate.html");
+  const signaturePath = `file:///${path
+    .resolve(__dirname, "../assets/signature.png")
+    .replace(/\\/g, "/")}`;
+
+  const stampPath = `file:///${path
+    .resolve(__dirname, "../assets/stamp.png")
+    .replace(/\\/g, "/")}`;
 
   // ✅ Render HTML using EJS
   const html = await ejs.renderFile(templatePath, {
@@ -29,15 +36,22 @@ async function generateCertificate(data) {
     description,
     date: issueDate,
     certificateId,
+    signaturePath,
+    stampPath,
   });
 
   // Launch Puppeteer
   const browser = await puppeteer.launch({
     headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--allow-file-access-from-files",
+    ],
   });
 
   const page = await browser.newPage();
+  await page.setBypassCSP(true);
   await page.setContent(html, { waitUntil: "networkidle0" });
 
   // Ensure output directory exists

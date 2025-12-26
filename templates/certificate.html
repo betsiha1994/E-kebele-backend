@@ -1,91 +1,101 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title><%= certificateTitle %></title>
 
     <style>
-        body {
-            width: 900px;
-            height: 600px;
-            margin: 0 auto;
-            padding: 40px;
-            border: 8px double black;
-            font-family: "Times New Roman", serif;
-            text-align: center;
-        }
+      body {
+        width: 900px;
+        height: 600px;
+        margin: 0 auto;
+        padding: 40px;
+        border: 8px double black;
+        font-family: "Times New Roman", serif;
+        text-align: center;
+      }
 
-        .header {
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 30px;
-        }
+      .header {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 30px;
+      }
 
-        h1 {
-            font-size: 34px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
+      h1 {
+        font-size: 34px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
 
-        .content {
-            margin-top: 40px;
-            font-size: 20px;
-            line-height: 30px;
-        }
+      .content {
+        margin-top: 40px;
+        font-size: 20px;
+        line-height: 30px;
+      }
 
-        .footer {
-            margin-top: 80px;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            font-size: 18px;
-            padding: 0 40px;
-        }
+      .footer {
+        margin-top: 80px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        font-size: 18px;
+        padding: 0 40px;
+      }
 
-        .sign-box {
-            text-align: center;
-        }
+      .sign-box {
+        text-align: center;
+      }
 
-        .value {
-            font-weight: bold;
-            font-size: 26px;
-            text-decoration: underline;
-        }
+      .value {
+        font-weight: bold;
+        font-size: 26px;
+        text-decoration: underline;
+      }
+      .signature-img {
+        width: 160px;
+        height: auto;
+      }
 
+      .stamp-img {
+        width: 140px;
+        height: auto;
+        opacity: 0.9;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <div class="header">
-        Federal Democratic Republic of Ethiopia <br>
-        Woreda / Kebele Administration Office
+      Federal Democratic Republic of Ethiopia <br />
+      Woreda / Kebele Administration Office
     </div>
 
     <h1><%= certificateTitle %></h1>
 
     <div class="content">
-        This is to certify that <br>
-        <span class="value"><%= name %></span> <br>
+      This is to certify that <br />
+      <span class="value"><%= name %></span> <br />
 
-        Phone: <span class="value"><%= phone %></span> <br><br>
+      Kebele: <span class="value"><%= kebele %></span> <br />
 
-        <%= description %> <br><br>
+      Phone: <span class="value"><%= phone || "N/A" %></span> <br /><br />
 
-        Date of Issue: <span class="value"><%= date %></span>
+      <%= description %> <br /><br />
+
+      Date of Issue: <span class="value"><%= date %></span>
     </div>
 
     <div class="footer">
-        <div class="sign-box">
-            ____________________________ <br>
-            Kebele Officer
-        </div>
+      <div class="sign-box">
+        <img src="file://<%= signaturePath %>" class="signature-img" /><br />
+        ____________________________ <br />
+        Kebele Officer
+      </div>
 
-        <div class="sign-box">
-            ____________________________ <br>
-            Stamp / Seal
-        </div>
+      <div class="sign-box">
+        <img src="file://<%= stampPath %>" class="stamp-img" /><br />
+        Stamp / Seal
+      </div>
     </div>
-
-</body>
+  </body>
 </html>

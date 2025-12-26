@@ -117,10 +117,11 @@ const approveRequest = async (req, res) => {
 
     // 🧠 Dynamic certificate data
     const cert = await generateCertificate({
-      name: user.fullName || user.name,
-      kebele: user.kebele || user.address || "",
-      certificateTitle: service.name, // 🔥 Dynamic title
-      extraData: request.formData || {}, // 🔥 Dynamic fields
+      certificateTitle: service.name, // ✅ works
+      name: user.name, // ✅ FIX
+      kebele: user.address, // ✅ FIX (address = kebele)
+      phone: user.phone || "", // optional
+      description: service.description || "",
     });
 
     console.log(`[DEBUG] Certificate generated:`, cert);
