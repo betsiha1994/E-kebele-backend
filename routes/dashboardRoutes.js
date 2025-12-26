@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const dashboardController = require("../controllers/dashboardController");
-const authMiddleware = require("../middleware/authMiddleware"); // JWT auth
+const authMiddleware = require("../middleware/authMiddleware"); 
 // const adminOnly = require("../middlewares/adminOnly"); // optional: admin-only
 
 
