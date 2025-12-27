@@ -35,8 +35,6 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/documents", documentRoutes);
 app.use("/api", certificateRoutes);
 
-
-
 const PORT = process.env.PORT || 3000;
 
 sequelize

@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title><%= certificateTitle %></title>
+    <title>House Certificate</title>
 
     <style>
       body {
@@ -74,38 +74,34 @@
       Woreda / Kebele Administration Office
     </div>
 
-    <h1><%= certificateTitle %></h1>
+    <h1>House Certificate</h1>
 
     <div class="content">
       This is to certify that <br />
-      <span class="value"><%= name %></span> <br />
+      <span class="value">Asres Yayeh</span> <br />
 
-      Kebele: <span class="value"><%= kebele %></span> <br />
+      Kebele: <span class="value">bahir dar</span> <br />
 
-      Phone: <span class="value"><%= phone || "N/A" %></span> <br /><br />
+      Phone: <span class="value">+251962710015</span> <br /><br />
 
-      <%= description %> <br /><br />
+      Digitally Process your House Certificate <br /><br />
 
-      Date of Issue: <span class="value"><%= date %></span>
+      Date of Issue: <span class="value">December 27, 2025</span>
     </div>
 
     <div class="footer">
       <div class="sign-box">
-        <% if (signatureBase64) { %>
-          <img src="<%= signatureBase64 %>" class="signature-img" /><br />
-        <% } else { %>
-          <div style="height: 80px;"></div>
-        <% } %>
+        
+          <img src="data:image/png;base64," class="signature-img" /><br />
+        
         ____________________________ <br />
         Kebele Officer
       </div>
 
       <div class="sign-box">
-        <% if (stampBase64) { %>
-          <img src="<%= stampBase64 %>" class="stamp-img" /><br />
-        <% } else { %>
-          <div style="height: 80px;"></div>
-        <% } %>
+        
+          <img src="data:image/png;base64," class="stamp-img" /><br />
+        
         Stamp / Seal
       </div>
     </div>
