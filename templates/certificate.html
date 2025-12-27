@@ -3,38 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <title><%= certificateTitle %></title>
-
     <style>
       body {
         width: 900px;
-        height: 600px;
         margin: 0 auto;
         padding: 40px;
         border: 8px double black;
         font-family: "Times New Roman", serif;
         text-align: center;
+        background-color: white;
       }
 
       .header {
         font-size: 22px;
         font-weight: bold;
         margin-bottom: 30px;
+        color: #333;
       }
 
       h1 {
         font-size: 34px;
         text-transform: uppercase;
         margin-bottom: 20px;
+        color: #000;
+        letter-spacing: 2px;
       }
 
       .content {
         margin-top: 40px;
         font-size: 20px;
         line-height: 30px;
+        color: #333;
       }
 
       .footer {
-        margin-top: 80px;
+        margin-top: 60px;
         width: 100%;
         display: flex;
         justify-content: space-between;
@@ -44,31 +47,96 @@
 
       .sign-box {
         text-align: center;
+        width: 45%;
       }
 
       .value {
         font-weight: bold;
         font-size: 26px;
         text-decoration: underline;
+        color: #000;
       }
+      
+      /* SIGNATURE AND STAMP STYLES */
+      .signature-img, .stamp-img {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        background-color: transparent !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        position: relative;
+        z-index: 10;
+      }
+      
       .signature-img {
-        width: 160px;
-        height: auto;
-        max-height: 80px;
-        object-fit: contain;
+        width: 180px !important;
+        height: auto !important;
+        max-height: 90px !important;
+        object-fit: contain !important;
+        margin: 0 auto 15px auto !important;
+        border-bottom: 1px solid #000;
+        padding-bottom: 5px;
       }
-
+      
       .stamp-img {
-        width: 140px;
-        height: auto;
-        opacity: 0.9;
-        max-height: 80px;
-        object-fit: contain;
+        width: 160px !important;
+        height: auto !important;
+        opacity: 1 !important;
+        max-height: 90px !important;
+        object-fit: contain !important;
+        margin: 0 auto 15px auto !important;
+      }
+      
+      /* Fallback styling */
+      .image-fallback {
+        width: 180px;
+        height: 90px;
+        border: 2px dashed #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+        font-size: 14px;
+        margin: 0 auto 15px auto;
+        background-color: #f9f9f9;
+      }
+      
+      /* Ensure print compatibility */
+      @media print {
+        body {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+        
+        .signature-img, .stamp-img {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+      }
+      
+      /* Certificate ID styling */
+      .certificate-id {
+        position: absolute;
+        top: 20px;
+        right: 40px;
+        font-size: 14px;
+        color: #666;
+        font-style: italic;
+      }
+      
+      /* Line styling */
+      .sign-line {
+        width: 200px;
+        border-top: 1px solid #000;
+        margin: 10px auto;
       }
     </style>
   </head>
 
   <body>
+    <div class="certificate-id">Certificate ID: <%= certificateId %></div>
+    
     <div class="header">
       Federal Democratic Republic of Ethiopia <br />
       Woreda / Kebele Administration Office
@@ -78,9 +146,9 @@
 
     <div class="content">
       This is to certify that <br />
-      <span class="value"><%= name %></span> <br />
+      <span class="value"><%= name %></span> <br /><br />
 
-      Kebele: <span class="value"><%= kebele %></span> <br />
+      Kebele: <span class="value"><%= kebele %></span> <br /><br />
 
       Phone: <span class="value"><%= phone || "N/A" %></span> <br /><br />
 
@@ -91,23 +159,45 @@
 
     <div class="footer">
       <div class="sign-box">
-        <% if (signatureBase64) { %>
-          <img src="<%= signatureBase64 %>" class="signature-img" /><br />
+        <% if (signatureBase64 && signatureBase64.startsWith('data:image/')) { %>
+          <img src="<%= signatureBase64 %>" 
+               class="signature-img" 
+               alt="Official Signature" 
+               onload="console.log('Signature image loaded')"
+               onerror="console.log('Signature image failed to load')" />
+          <div class="sign-line"></div>
         <% } else { %>
-          <div style="height: 80px;"></div>
+          <div class="image-fallback">
+            <div>SIGNATURE<br><small>(Image not loaded)</small></div>
+          </div>
+          <div class="sign-line"></div>
         <% } %>
-        ____________________________ <br />
-        Kebele Officer
+        <strong>Kebele Officer</strong><br>
+        Authorized Signatory
       </div>
 
       <div class="sign-box">
-        <% if (stampBase64) { %>
-          <img src="<%= stampBase64 %>" class="stamp-img" /><br />
+        <% if (stampBase64 && stampBase64.startsWith('data:image/')) { %>
+          <img src="<%= stampBase64 %>" 
+               class="stamp-img" 
+               alt="Official Stamp" 
+               onload="console.log('Stamp image loaded')"
+               onerror="console.log('Stamp image failed to load')" />
         <% } else { %>
-          <div style="height: 80px;"></div>
+          <div class="image-fallback">
+            <div>OFFICIAL STAMP<br><small>(Image not loaded)</small></div>
+          </div>
         <% } %>
-        Stamp / Seal
+        <div class="sign-line"></div>
+        <strong>Official Seal</strong><br>
+        Kebele Administration
       </div>
+    </div>
+    
+    <!-- Hidden debug info -->
+    <div style="display: none; font-size: 10px; color: #ccc;">
+      Generated: <%= new Date().toISOString() %> | 
+      Images: <%= signatureBase64 ? 'Signature✓' : 'Signature✗' %> <%= stampBase64 ? 'Stamp✓' : 'Stamp✗' %>
     </div>
   </body>
 </html>
