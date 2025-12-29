@@ -2,7 +2,7 @@ const cors = require("cors");
 
 const allowedOrigins = [
   "http://localhost:5173",
-  //   "https://your-production-domain.com",
+  "https://e-kebele-theta.vercel.app",
 ];
 
 const corsOptions = {

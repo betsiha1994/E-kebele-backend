@@ -13,6 +13,10 @@ app.use("/certificates", express.static(path.join(__dirname, "certificates")));
 app.use(corsMiddleware);
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.status(200).send("E-Kebele backend is running");
+});
+
 const sequelize = require("./db");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
@@ -35,16 +39,35 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/documents", documentRoutes);
 app.use("/api", certificateRoutes);
 
+// const PORT = process.env.PORT || 3000;
+
+// sequelize
+//   .sync({ alter: true })
+//   .then(() => {
+//     console.log("Database synced successfully!");
+//     app.listen(PORT, () => {
+//       console.log(`Server running at http://localhost:${PORT}`);
+//     });
+//   })
+//   .catch((err) => {
+//     console.error("Failed to sync database:", err);
+//   });
 const PORT = process.env.PORT || 3000;
 
 sequelize
-  .sync({ alter: true })
+  .authenticate()
   .then(() => {
-    console.log("Database synced successfully!");
+    console.log("Database connected");
+
     app.listen(PORT, () => {
-      console.log(`Server running at http://localhost:${PORT}`);
+      console.log(`Server running on port ${PORT}`);
     });
   })
   .catch((err) => {
-    console.error("Failed to sync database:", err);
+    console.error("Database connection failed:", err.message);
+
+    // IMPORTANT: still start the server so Render does not fail
+    app.listen(PORT, () => {
+      console.log("Server started WITHOUT DB connection");
+    });
   });
