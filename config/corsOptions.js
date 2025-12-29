@@ -3,6 +3,7 @@ const cors = require("cors");
 const allowedOrigins = [
   "http://localhost:5173",
   "https://e-kebele-theta.vercel.app",
+  "https://e-kebele-q7xwwy3xn-yayehasres1221-9605s-projects.vercel.app",
 ];
 
 const corsOptions = {
@@ -10,7 +11,8 @@ const corsOptions = {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("CORS not allowed for this origin"));
+      // ❗ DO NOT throw error — just deny
+      callback(null, false);
     }
   },
   credentials: true,
